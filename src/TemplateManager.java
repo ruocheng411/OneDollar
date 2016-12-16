@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
+
 import org.jdom.*;
 import org.jdom.input.*;
 
@@ -79,6 +81,7 @@ public class TemplateManager
 		try {
 		FileWriter fstream = new FileWriter("out.xml", true);
 		BufferedWriter out = new BufferedWriter(fstream);
+		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		out.write("	<template name=\"" + name + "\" nbPts=\"" + points.size() +"\">\n");
 		for (int i=0; i<points.size();i++) {
 			out.write("		<Point x=\"" + (int)points.get(i).x + "\" y=\"" +
@@ -86,6 +89,7 @@ public class TemplateManager
 		}
 		
 		out.write("	</template>\n");
+		out.write("</gestureTemplates>\n");
 		out.close();
 		} catch (Exception e){//Catch exception if any
 		      System.err.println("Error: " + e.getMessage());

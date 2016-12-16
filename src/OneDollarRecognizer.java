@@ -33,7 +33,11 @@ public class OneDollarRecognizer {
 
         public void setNewTemplate(String name){
         	templateManager.writeRawPoints2XMLFile(name, rawSrcPoints);
-        	theTemplates = templateManager.getTemplates();
+        	Template newT = new Template(name, rawSrcPoints);
+        	theTemplates.add(newT);
+        	prepareTemplates();
+        	System.out.print(newT.getName()+" added \n");
+
         }
         	
         protected void prepareTemplates() {
