@@ -31,6 +31,11 @@ public class OneDollarRecognizer {
                 prepareTemplates();
         }
 
+        public void setNewTemplate(String name){
+        	templateManager.writeRawPoints2XMLFile(name, rawSrcPoints);
+        	theTemplates = templateManager.getTemplates();
+        }
+        	
         protected void prepareTemplates() {
                 Vector<Tuple2> points = new Vector<Tuple2>();
                 for (int i = 0; i < theTemplates.size(); i++) {

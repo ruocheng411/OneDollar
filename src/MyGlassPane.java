@@ -64,6 +64,14 @@ implements ItemListener {
 		addMouseListener(listener);
 		addMouseMotionListener(listener);
 	}
+	
+	public OneDollarRecognizer getRecognizer() {
+		return recognizer;
+	}
+	public void addNewTemplate(String name) {
+		recognizer.setNewTemplate(name);
+		
+	}
 }
 
 
@@ -182,4 +190,5 @@ class CBListener extends MouseInputAdapter {
 			glassPane.repaint();
 		}
 	}
+	
 }

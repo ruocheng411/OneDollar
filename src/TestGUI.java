@@ -13,12 +13,13 @@ public class TestGUI {
 	ActionAjouter actionAjout = new ActionAjouter();
 	ActionAnnuler actionAnnuler = new ActionAnnuler();
 	ActionRefaire actionRefaire = new ActionRefaire();
+	ActionAdd actionAdd = new ActionAdd();
 
 	private DefaultListModel listModel;
 	private JTextField text;
 	private JList list;
 	UndoManager manager;
-
+	MyGlassPane myGlassPane;
 	TestGUI() {
 		manager = new UndoManager();
 
@@ -40,8 +41,13 @@ public class TestGUI {
 		text.setAction(actionAjout);
 
 		JButton boutonAjouter = new JButton("Ajouter");
+		JButton boutonNew = new JButton("New Gesture");
 		boutonAjouter.setAction(actionAjout);
 		boutonAjouter.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		
+		boutonNew.setAction(actionAdd);
+		boutonNew.setAlignmentX(JComponent.LEFT_ALIGNMENT);
+		
 
 		JCheckBox changeButton = new JCheckBox("Visualiser les gestes");
 		changeButton.setSelected(true);
@@ -73,10 +79,12 @@ public class TestGUI {
 		fen.getContentPane().add(listScroller);
 		fen.getContentPane().add(text);
 		fen.getContentPane().add(boutonAjouter);
+		fen.getContentPane().add(boutonNew);
 		fen.getContentPane().add(changeButton);
+		
 
 		// Glass pane
-		MyGlassPane myGlassPane = new MyGlassPane(changeButton, menuBar, fen.getContentPane());
+		myGlassPane = new MyGlassPane(changeButton, menuBar, fen.getContentPane());
 		changeButton.addItemListener(myGlassPane);
 		fen.setGlassPane(myGlassPane);
 		myGlassPane.setVisible(true);
@@ -142,6 +150,27 @@ public class TestGUI {
 		}
 	}	
 
+	private class ActionAdd extends AbstractAction {
+		ActionAdd() {
+			super();
+			putValue(Action.NAME, "New Gesture");
+
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			if (text.getText().length() > 0) {
+				listModel.addElement(text.getText());
+				manager.addEdit(new UndoableList(listModel, text.getText(), listModel.getSize()-1));
+
+//				Template newT = new Template(text.getText(), myGlassPane.getRecognizer().getRawSrcPoints());
+				myGlassPane.addNewTemplate(text.getText());
+				text.setText("");
+				updateUndoRedoButton();
+			}
+		}
+	}	
+	
+	
 
 	private class ActionAnnuler extends AbstractAction {
 		ActionAnnuler() {
